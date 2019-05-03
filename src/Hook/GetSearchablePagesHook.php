@@ -51,26 +51,29 @@ class GetSearchablePagesHook
 
             if ($language !== $defaultLanguage)
             {
-                list($objI18nl10nPage, $strItem) = $this->getLocalizedPageAndItemFromAlias($strPageAlias, $language);
+                try {
+					// catch the exeption for the international page missing - not good, but not critical
+					list($objI18nl10nPage, $strItem) = $this->getLocalizedPageAndItemFromAlias($strPageAlias, $language);
 
-                if($objPage = $this->getPageFromLocalizedPage($objI18nl10nPage, $time))
-                {
-                    $arrPageUrlsFinal[] = ($strItem ? $objPage->alias . "/" . $strItem : $objPage->alias) . ".html";
-                    foreach($arrLanguages['localizations'] as $strLanguage)
-                    {
-                        if($strLanguage === $objI18nl10nPage->language)
-                        {
-                            continue;
-                        }
+					if($objPage = $this->getPageFromLocalizedPage($objI18nl10nPage, $time))
+					{
+						$arrPageUrlsFinal[] = ($strItem ? $objPage->alias . "/" . $strItem : $objPage->alias) . ".html";
+						foreach($arrLanguages['localizations'] as $strLanguage)
+						{
+							if($strLanguage === $objI18nl10nPage->language)
+							{
+								continue;
+							}
 
-                        $objI18nl10nPage = $this->getLocalizedPageFromPage($objPage, $strLanguage, $time);
-                        if ($objI18nl10nPage) {
-                            $arrPageUrlsFinal[] =
-                                ($strItem ? $objI18nl10nPage->alias . "/" . $strItem : $objI18nl10nPage->alias) . ".html";
-                        }
-                    }
-                }
-
+							$objI18nl10nPage = $this->getLocalizedPageFromPage($objPage, $strLanguage, $time);
+							if ($objI18nl10nPage) {
+								$arrPageUrlsFinal[] =
+									($strItem ? $objI18nl10nPage->alias . "/" . $strItem : $objI18nl10nPage->alias) . ".html";
+							}
+						}
+					}
+				}
+				catch(\Exception $e){}
             } else {
                 list($objPage, $strItem) = $this->getPageAndItemFromAlias($strPageAlias);
                 foreach($arrLanguages['localizations'] as $strLanguage)
