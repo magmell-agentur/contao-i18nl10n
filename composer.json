@@ -1,6 +1,6 @@
 {
   "name": "magmell-agentur/contao-i18nl10n",
-  "type":"contao-bundle",
+  "type": "contao-bundle",
   "description": "The simplest way to create and manage multi-language sites with Contao.",
   "keywords": [
     "Language",
@@ -32,21 +32,14 @@
       "role": "Developer"
     }
   ],
-  "repositories": {
-    "exim/svg-build-image": {
-      "type": "vcs",
-      "url": "git@bitbucket.org:exploreimpact/svg-build-image.git"
-    }
-  },
   "require": {
-    "php": "^5.6|^7.0",
-    "contao/core-bundle": "^4.4",
+    "php": "^7.2",
+    "contao/core-bundle": "4.9.*",
     "contao-community-alliance/composer-plugin": "*",
     "menatwork/contao-multicolumnwizard": "^3.3.12"
   },
   "require-dev": {
-    "contao/manager-plugin": "^2.0",
-    "exim/svg-build-image": "dev-master",
+    "contao/manager-plugin": "^2.3",
     "codeception/codeception": "*",
     "phpmd/phpmd": "^2.2",
     "squizlabs/php_codesniffer": "^2.3",
@@ -55,7 +48,7 @@
     "pdepend/pdepend": "^2.1",
     "theseer/phpdox": "0.8.1.1"
   },
-  "autoload":{
+  "autoload": {
     "psr-4": {
       "Verstaerker\\I18nl10nBundle\\": "src/"
     },
@@ -69,7 +62,7 @@
       "src/Resources/contao/templates/"
     ]
   },
-  "extra":{
+  "extra": {
     "contao-manager-plugin": "Verstaerker\\I18nl10nBundle\\ContaoManager\\Plugin"
   }
 }
