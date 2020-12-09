@@ -39,6 +39,11 @@ class GenerateFrontendUrlHook
             throw new \Exception('not an associative array.');
         }
 
+        if (strpos($strUrl, 'preview.php') > -1)
+        {
+            return $strUrl;
+        }
+
         global $objPage;
 
         $arrLanguages = I18nl10n::getInstance()->getLanguagesByDomain();
