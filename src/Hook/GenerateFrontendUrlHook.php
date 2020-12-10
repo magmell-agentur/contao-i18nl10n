@@ -3,6 +3,7 @@
 namespace Verstaerker\I18nl10nBundle\Hook;
 
 use Contao\Database;
+use Contao\PageModel;
 use Contao\System;
 use Verstaerker\I18nl10nBundle\Classes\I18nl10n;
 
@@ -41,6 +42,22 @@ class GenerateFrontendUrlHook
 
         if (strpos($strUrl, 'preview.php') > -1)
         {
+            if (strpos(System::getReferer(), 'do=i18nl10n') > -1)
+            {
+                $arrAlias = explode('/preview.php/', $strUrl);
+                $alias = str_replace('.html', '', $arrAlias[1]);
+                $objPageModel = PageModel::findByAlias($alias);
+                if ($objPageModel)
+                {
+                    $objPageL18nI10n = Database::getInstance()->prepare("SELECT `language`, `alias` FROM `tl_page_i18nl10n` WHERE `pid`=?;")->execute($objPageModel->id);
+                    if ($objPageL18nI10n && $objPageL18nI10n->count())
+                    {
+                        $strUrl = $arrAlias[0] . '/preview.php/' . $objPageL18nI10n->language . '/' . $objPageL18nI10n->alias . '.html';
+                        return $strUrl;
+                    }
+                }
+            }
+
             return $strUrl;
         }
 
