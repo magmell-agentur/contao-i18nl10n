@@ -47,7 +47,7 @@ class GetSearchablePagesHook
 
             $arrPageUrlsFinal[] = $strPageUrl;
 
-            $strPageAlias = $this->getAliasFromUrl($strPageUrl, $arrLanguages['localizations']);
+            $strPageAlias = $this->getAliasFromUrl($strPageUrl, $arrLanguages['localizations'] ?: array());
 
             if ($language !== $defaultLanguage)
             {

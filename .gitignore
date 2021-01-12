@@ -12,6 +12,7 @@ nbproject/
 
 # Vendors
 /vendor
+composer.lock
 
 # Distribution
 /dist

@@ -3,6 +3,7 @@
 namespace Verstaerker\I18nl10nBundle\Hook;
 
 use Contao\Database;
+use Contao\Input;
 use Contao\PageModel;
 use Contao\System;
 use Verstaerker\I18nl10nBundle\Classes\I18nl10n;
@@ -15,7 +16,7 @@ use Verstaerker\I18nl10nBundle\Classes\I18nl10n;
  */
 class GenerateFrontendUrlHook
 {
-    /** @var \Contao\Database $database */
+    /** @var Database $database */
     protected $database;
 
     public function __construct()
@@ -40,6 +41,26 @@ class GenerateFrontendUrlHook
             throw new \Exception('not an associative array.');
         }
 
+        // Return immediately if indexing pages with solr command and ignore flag is present
+        if (!empty($_SERVER['argv'])
+            && in_array('solr:index', $_SERVER['argv'])
+            && in_array('--ignore-contao-i18nl10n', $_SERVER['argv']))
+        {
+            return $strUrl;
+        }
+
+        // Fix broken contao backend crawler
+//        if ('maintenance' === Input::get('do') && 'crawl' === Input::get('act') && !Input::get('jobId') && $arrRow['pid'] == 0)
+//        {
+//            return ($arrRow['useSSL'] ? 'https' : 'http') . '://' . $arrRow['dns'];
+//        }
+//
+//        if (Input::get('jobId'))
+//        {
+//            return $strUrl;
+//        }
+
+        // Contao preview for localized pages
         if (strpos($strUrl, 'preview.php') > -1)
         {
             if (strpos(System::getReferer(), 'do=i18nl10n') > -1)
