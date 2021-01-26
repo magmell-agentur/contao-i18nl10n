@@ -49,16 +49,16 @@ class GenerateFrontendUrlHook
             return $strUrl;
         }
 
-        // Fix broken contao backend crawler
-//        if ('maintenance' === Input::get('do') && 'crawl' === Input::get('act') && !Input::get('jobId') && $arrRow['pid'] == 0)
-//        {
-//            return ($arrRow['useSSL'] ? 'https' : 'http') . '://' . $arrRow['dns'];
-//        }
-//
-//        if (Input::get('jobId'))
-//        {
-//            return $strUrl;
-//        }
+        // Fix contao backend crawler
+        if ('maintenance' === Input::get('do') && 'crawl' === Input::get('act') && !Input::get('jobId') && $arrRow['pid'] == 0)
+        {
+            return ($arrRow['useSSL'] ? 'https' : 'http') . '://' . $arrRow['dns'];
+        }
+
+        if ('terminal42/escargot' === $_SERVER['HTTP_USER_AGENT'])
+        {
+            return $strUrl;
+        }
 
         // Contao preview for localized pages
         if (strpos($strUrl, 'preview.php') > -1)
